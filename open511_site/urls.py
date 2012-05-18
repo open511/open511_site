@@ -9,4 +9,4 @@ urlpatterns = patterns('',
     url(r'', include('open511.urls')),
 )
 
-urlpatterns += staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()
