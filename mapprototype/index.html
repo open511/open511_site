@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ZoneCone v2</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+	body {
+		overflow: hidden;
+	}
+	#header {
+		height: 50px;
+		padding: 1px 10px;
+		background-color: #AFF59F;
+		border-bottom: 2px solid #5bb053;
+	}
+	#header #logo {
+		padding: 6px 20px 0 8px;
+	}
+	#infopane {
+		width: 300px;
+		overflow: auto;
+		padding: 5px 15px;
+	}
+	#infopane h2 {
+		font-family: 'Ubuntu Condensed', sans-serif;
+		line-height: 30px;
+		margin: 10px 0;
+	}
+	#infopane div.date {
+		font-size: 14px;
+		font-weight: bold;
+		color: #777777;
+		margin-bottom: 5px;
+	}
+	#infopane h4 {
+		font-family: 'Ubuntu Condensed', sans-serif;
+		border-bottom: 1px dotted #aaaaaa;
+		margin: 10px 0 5px 0;
+	}
+	#mappane {
+		position: absolute;
+		overflow: hidden;
+	}
+	</style>
+</head>
+<body>
+<div id="header"><h1><img id="logo" src="img/logotype.png"> <small>Development preview</small></h1></div>
+<div id="infopane">
+	<h2>Open, shareable data on roadwork</h2>
+	<p>This is an early preview of our work on the Open511 project.</p>
+	<p>This application gets its data entirely from our <a href="http://dev.open511.ca/roadevents/?indent=4">Web service</a>, which in turn loads data from files in our (pre-alpha!) <a href="511.xml">XML format</a>.</p>
+	<p>The cones you see to your left were converted into Open511 format by scrapers for the Ville de Montr&eacute;al and the Minist&egrave;re des transports du Qu&eacute;bec websites. As such, not everything is perfectly formatted or aligned with the Open511 format. Click a cone to see more details.</p>
+</div>
+<div id="mappane"></div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="js/underscore.js"></script>
+<script type="text/javascript" src="js/geojson-to-google.js"></script>
+<script type="text/javascript">
+(function() {
+	O5 = {
+		utils: {
+			txt2html: function(txt) {
+				return _.escape(txt).replace('\n', '<br>');
+			}
+		}
+	};
+	
+	O5.Map = function(opts) {
+		opts = opts || {};
+		_.defaults(opts, {
+			startLat: 45.532411,
+			startLng: -73.61512,
+			startZoom: 10,
+			mapContainerID: "mappane",
+			markerOpts: {
+				icon: "img/cone-small-1.png"
+			},
+			polylineOpts: {
+				strokeColor: "#FF0000"
+			},
+			polygonOpts: {
+				strokeColor: "#ff0000",
+				fillColor: "#c23e3e"
+			}
+		});
+		
+		_.extend(this, opts);
+		this.init();
+	};
+	
+	O5.Map.prototype.init = function() {
+		var mapOptions = {
+			center: new google.maps.LatLng(this.startLat, this.startLng),
+			zoom: this.startZoom,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			zoomControlOptions: {
+				style: google.maps.ZoomControlStyle.SMALL
+			}
+		};
+		this.gmap = new google.maps.Map($('#' + this.mapContainerID)[0], mapOptions);
+		return this.gmap;
+	};
+	
+	/**
+	* Returns an array of overlays to add to the map based on the provided GeoJSON object. 
+	*/
+	O5.Map.prototype.getOverlaysFromGeoJSON = function(gj) {
+		switch (gj.type) {
+			case 'Point':
+				var opts = _.clone(this.markerOpts);
+				opts.position = new google.maps.LatLng(gj.coordinates[1], gj.coordinates[0]);
+				return [new google.maps.Marker(opts)];
+			case 'LineString':
+				var path = _.map(gj.coordinates, function(c) {
+					return new google.maps.LatLng(c[1], c[0]);
+				});
+				
+				// First, the polyline
+				
+				var line = new google.maps.Polyline({path: path});
+				line.setOptions(this.polylineOpts);
+				
+				// And then a marker at the middle
+				var marker = new google.maps.Marker({
+					position: path[Math.floor(path.length/2)]
+				});
+				marker.setOptions(this.markerOpts);
+				
+				return [line, marker];
+			case 'Polygon':
+				var gon = geoJSONToGoogle(gj, this.polygonOpts)
+				var marker = new google.maps.Marker({
+					position: gon.getPath().getAt(0)
+				});
+				marker.setOptions(this.markerOpts);
+				return [gon, marker];
+			default:
+				alert("Invalid geometry type: " + gj.type);
+				
+		}
+		
+	};
+	
+	O5.Map.prototype.addRoadEvent = function(rdev) {
+		var self = this;
+		_.each(self.getOverlaysFromGeoJSON(rdev.Geometry), function(overlay) {
+			overlay.setMap(self.gmap);
+			google.maps.event.addListener(overlay, 'click', function() {
+				rdev.displayDetails(self);
+			});
+		});
+	};
+		
+	O5.templates = {
+		roadEventDetails: _.template(
+		"<% if (r.Title) { %><h2><%- r.Title %></h2><% } %>" +
+		'<% if (r.StartDate || r.EndDate) { %><div class="date"><%- r.StartDate%> &#8211; <%- r.EndDate %></div><% } %>' +
+		"<% if (r.AffectedRoads) { %><h4>Affected roads</h4><%= O5.utils.txt2html(r.AffectedRoads) %><% } %>" + 
+		"<% if (r.Description) { %><h4>Details</h4><%= O5.utils.txt2html(r.Description) %><% } %>" + 
+		"<% if (r.TrafficRestrictions) { %><h4>Traffic restrictions</h4><%= O5.utils.txt2html(r.TrafficRestrictions) %><% } %>"
+		)
+	};
+	
+	
+	O5.RoadEvent = function(data) {
+		_.extend(this, data);
+	};
+	O5.RoadEvent.prototype.displayDetails = function() {
+		var html = O5.templates.roadEventDetails({r: this});
+		$('#infopane').html(html);
+	};
+})();
+$(function() {
+	var drawPage = function() {
+		var topOffset = $('#header').outerHeight();
+		var leftOffset = $('#infopane').outerWidth();
+		$('#infopane,#mappane').height($(window).height() - topOffset);
+		$('#mappane').width($(window).width() - leftOffset).css({left: leftOffset, top: topOffset});
+	}
+	drawPage();
+	$(window).resize(drawPage);
+	
+	var map = new O5.Map();
+	
+	rdevs = [];
+	$.getJSON('http://dev.open511.ca/roadevents/?callback=?', function(data) {
+		_.each(data.content, function(d) {
+			var rdev = new O5.RoadEvent(d);
+			map.addRoadEvent(rdev);
+			rdevs.push(rdev);
+		});
+		
+	});
+});
+</script>
+</body>
+</html>
