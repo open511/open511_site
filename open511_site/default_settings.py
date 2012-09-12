@@ -101,9 +101,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'open511',
     'django.contrib.admin',
     'django.contrib.gis',
-    'open511',
 )
 
 # A sample logging configuration. The only tangible logging
