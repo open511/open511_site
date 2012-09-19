@@ -146,7 +146,7 @@
 	
 	O5.Map.prototype.addRoadEvent = function(rdev) {
 		var self = this;
-		_.each(self.getOverlaysFromGeoJSON(rdev.Geometry), function(overlay) {
+		_.each(self.getOverlaysFromGeoJSON(rdev.geometry), function(overlay) {
 			overlay.setMap(self.gmap);
 			google.maps.event.addListener(overlay, 'click', function() {
 				rdev.displayDetails(self);
@@ -156,11 +156,10 @@
 		
 	O5.templates = {
 		roadEventDetails: _.template(
-		"<% if (r.Title) { %><h2><%- r.Title %></h2><% } %>" +
-		'<% if (r.StartDate || r.EndDate) { %><div class="date"><%- r.StartDate%> &#8211; <%- r.EndDate %></div><% } %>' +
-		"<% if (r.AffectedRoads) { %><h4>Affected roads</h4><%= O5.utils.txt2html(r.AffectedRoads) %><% } %>" + 
-		"<% if (r.Description) { %><h4>Details</h4><%= O5.utils.txt2html(r.Description) %><% } %>" + 
-		"<% if (r.TrafficRestrictions) { %><h4>Traffic restrictions</h4><%= O5.utils.txt2html(r.TrafficRestrictions) %><% } %>"
+		"<% if (r.headline) { %><h2><%- r.headline %></h2><% } %>" +
+		'<% if (r.schedule) { %><div class="date"><%- r.schedule.startDate%> &#8211; <%- r.schedule.endDate %></div><% } %>' +
+		"<% if (r.description) { %><h4>Details</h4><%= O5.utils.txt2html(r.description) %><% } %>" + 
+		"<% if (r.trafficRestrictions) { %><h4>Traffic restrictions</h4><%= O5.utils.txt2html(r.trafficRestrictions) %><% } %>"
 		)
 	};
 	
@@ -186,7 +185,7 @@ $(function() {
 	var map = new O5.Map();
 	
 	rdevs = [];
-	$.getJSON('http://dev.open511.ca/roadevents/?callback=?', function(data) {
+	$.getJSON('http://dev.open511.ca/events/?format=json&callback=?', function(data) {
 		_.each(data.content, function(d) {
 			var rdev = new O5.RoadEvent(d);
 			map.addRoadEvent(rdev);
