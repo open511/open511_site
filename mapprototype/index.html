@@ -185,7 +185,7 @@ $(function() {
 	var map = new O5.Map();
 	
 	rdevs = [];
-	$.getJSON('http://dev.open511.ca/events/?format=json&callback=?', function(data) {
+	$.getJSON('http://dev.open511.ca/events/?format=json&accept-language=en,fr;q=0.1&callback=?', function(data) {
 		_.each(data.content, function(d) {
 			var rdev = new O5.RoadEvent(d);
 			map.addRoadEvent(rdev);
