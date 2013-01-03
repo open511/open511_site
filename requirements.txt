@@ -3,5 +3,5 @@ psycopg2
 -e git+http://github.com/opennorth/open511.git#egg=open511
 -e git+http://github.com/opennorth/open511-ui.git#egg=open511_ui
 django-extensions
--e git+http://github.com/miracle2k/webassets.git#egg=webassets
--e git+https://github.com/miracle2k/django-assets.git#egg=django_assets
+-e git+http://github.com/miracle2k/webassets.git@d2be387c19988f7ae87f0e26e33a02294ec8590c#egg=webassets
+-e git+https://github.com/miracle2k/django-assets.git@6ca94022d893c3b67321234373d6ed7c119ed0d9#egg=django_assets
