@@ -2,7 +2,6 @@ Django>=1.4.1
 psycopg2
 -e git+http://github.com/opennorth/open511.git#egg=open511
 -e git+http://github.com/opennorth/open511-ui.git#egg=open511_ui
-python-dateutil
 django-extensions
 -e git+http://github.com/miracle2k/webassets.git#egg=webassets
 -e git+https://github.com/miracle2k/django-assets.git#egg=django_assets
