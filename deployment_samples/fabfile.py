@@ -58,3 +58,9 @@ def update_statics():
     with cd(env.base_dir):
         run(env.python + ' manage.py collectstatic --noinput')
 
+def manage(cmd):
+    with cd(env.base_dir):
+        run(env.python + ' manage.py %s' % cmd)
+
+def shell():
+    manage('shell_plus')
