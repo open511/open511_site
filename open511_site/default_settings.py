@@ -1,4 +1,4 @@
-# Django settings for open511 project.
+#coding: utf-8
 import os
 
 DEBUG = True
@@ -12,6 +12,11 @@ TEMPLATE_DEBUG = DEBUG
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = 'America/Montreal'
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('fr', u'Français')
+]
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -83,6 +88,7 @@ MIDDLEWARE_CLASSES = (
     # FIXME 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
