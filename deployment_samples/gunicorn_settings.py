@@ -11,9 +11,9 @@ bind = '127.0.0.1:10132'
 
 workers = (NUM_CPUS * 2) + 1
 
-pidfile = os.path.join(BASE_DIR, 'gunicorn.pid')
+pidfile = os.path.join(BASE_DIR, '..', 'gunicorn.pid')
 
 #worker_class = 'gevent'
-errorlog = os.path.join(BASE_DIR, 'logs', 'gunicorn-error.log')
+errorlog = os.path.join(BASE_DIR, '..', 'logs', 'gunicorn-error.log')
 
 proc_name = 'open511'

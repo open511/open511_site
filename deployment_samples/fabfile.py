@@ -6,12 +6,6 @@ def prod():
     """Select the prod environment for future commands."""
     raise NotImplementedError
 
-def dev():
-    """Select the dev environment for future commands."""
-    env.hosts = ['dev.open511.ca']
-    env.user = 'michael'
-    _env_init()
-    env.base_dir = os.path.join(env.home_dir, 'sites', 'open511')
 
 def _env_init():
     env.home_dir = '/home/' + env.user
