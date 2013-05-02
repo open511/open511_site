@@ -11,11 +11,12 @@ def dev():
     env.hosts = ['dev.open511.ca']
     env.user = 'michael'
     _env_init()
-    
+    env.base_dir = os.path.join(env.home_dir, 'sites', 'open511')
+
 def _env_init():
     env.home_dir = '/home/' + env.user
     env.python = os.path.join(env.home_dir, '.virtualenvs', 'open511', 'bin', 'python')
-    env.base_dir = os.path.join(env.home_dir, 'sites', 'open511')
+    env.base_dir = os.path.join(env.home_dir, 'app')
     env.pip = env.python.replace('bin/python', 'bin/pip')
     
 def deploy(ref='master'):
