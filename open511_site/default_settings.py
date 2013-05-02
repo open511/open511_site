@@ -88,7 +88,7 @@ MIDDLEWARE_CLASSES = (
     # FIXME 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    #'django.middleware.locale.LocaleMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -101,6 +101,9 @@ WSGI_APPLICATION = 'open511_site.wsgi.application'
 TEMPLATE_DIRS = (
     os.path.join(PROJ_ROOT, 'templates'),
 )
+
+LOGIN_REDIRECT_URL = 'o5ui_home'
+LOGIN_URL = 'login'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
