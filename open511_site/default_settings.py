@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_assets',
+    'south',
     'open511',
     'open511_ui',
     'django.contrib.admin',
