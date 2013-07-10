@@ -1,7 +1,7 @@
 #coding: utf-8
 import os
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # Local time zone for this installation. Choices can be found here:
@@ -68,9 +68,10 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django_assets.finders.AssetsFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'x_cuca9f9f-r!!3lcm^x1&amp;uwzy_v85rq00vg(-a1k*w3dzo0%u'
@@ -112,10 +113,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_assets',
     'south',
     'open511',
-    'open511_ui',
+    'django_open511_ui',
     'django.contrib.admin',
     'django.contrib.gis',
     'django_extensions'
