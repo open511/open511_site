@@ -123,12 +123,7 @@ INSTALLED_APPS = (
 
 LOGGING = {
     'version': 1,
-    'handlers': {
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-        },
-    },
+    'disable_existing_loggers': False,
     'loggers': {
         'open511': {
             'handlers': ['console'],
@@ -136,9 +131,8 @@ LOGGING = {
             'propagate': True,
         },
        'django.security.DisallowedHost': {
-            'handlers': ['mail_admins'],
-            'level': 'CRITICAL',
-            'propagate': False,
+            'handlers': ['null'],
+            'propagate': False
         }
     }
 }
