@@ -22,8 +22,6 @@ LANGUAGES = [
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en'
 
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -35,11 +33,11 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
-PROJ_ROOT = os.path.dirname(os.path.realpath(__file__))
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.realpath(os.path.join(PROJ_ROOT, '..', 'media'))
+MEDIA_ROOT = os.path.realpath(os.path.join(BASE_DIR, '..', 'media'))
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -50,7 +48,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.realpath(os.path.join(PROJ_ROOT, '..', 'collected_static'))
+STATIC_ROOT = os.path.realpath(os.path.join(BASE_DIR, '..', 'collected_static'))
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -76,13 +74,6 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStora
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'x_cuca9f9f-r!!3lcm^x1&amp;uwzy_v85rq00vg(-a1k*w3dzo0%u'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -101,7 +92,7 @@ ROOT_URLCONF = 'open511_site.urls'
 WSGI_APPLICATION = 'open511_site.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJ_ROOT, 'templates'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 LOGIN_REDIRECT_URL = 'o5ui_home'
@@ -113,8 +104,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
-    'open511',
+    'open511_server',
     'django_open511_ui',
     'django.contrib.admin',
     'django.contrib.gis',

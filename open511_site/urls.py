@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('open511.urls')),
+    url(r'^api/', include('open511_server.urls')),
     url(r'^map/', include('django_open511_ui.urls')),
     url(r'^$', TemplateView.as_view(template_name='open511_home.html')),
     url(r'^accounts/', include('django_open511_ui.auth_urls')),
