@@ -1,4 +1,4 @@
-Django>=1.7b1
+Django>=1.7,<1.8
 psycopg2
 -e git+https://github.com/opennorth/open511.git#egg=open511
 -e git+http://github.com/opennorth/open511-server.git#egg=open511-server
