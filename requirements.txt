@@ -1,9 +1,9 @@
 Django>=1.7,<1.8
 psycopg2
--e git+https://github.com/opennorth/open511.git#egg=open511
--e git+http://github.com/opennorth/open511-server.git#egg=open511-server
--e git+http://github.com/opennorth/roadcast.git#egg=roadcast
--e git+http://github.com/opennorth/open511-api-tests.git#egg=open511-api-tests
+-e git+https://github.com/open511/open511.git#egg=open511
+-e git+http://github.com/open511/open511-server.git#egg=open511-server
+-e git+http://github.com/open511/roadcast.git#egg=roadcast
+-e git+http://github.com/open511/open511-api-tests.git#egg=open511-api-tests
 django-extensions==1.2.5
 # Specify pytz, because it is slower when setuptools installs it as a zip. Ugh.
 pytz
