@@ -3,8 +3,5 @@
 {% block headertitle %}Development site{% endblock %}
 
 {% block content %}
-<h1>API Draft</h1>
-	<p>We&rsquo;re currently drafting an API spec for sharing road data, with help from several collaborators. <a href="http://open511.org/documentation.html">Read the draft</a>, and <a href="http://github.com/opennorth/Open511API/issues">provide comments</a>.
-	<h1>Implementation demo</h1>
-	<p>Explore a live but incomplete demo of the <a href="{% url "open511_discovery" %}">browseable API</a>, and of a <a href="{% url "o5ui_home" %}">map-based interface</a>.</p>
+	<p>Welcome! This is a demo of Open North's implementation of the <a href="http://open511.org/">Open511 standard</a>. You can browse through an <a href="{% url "open511_discovery" %}">Open511-compliant API with sample road-event data</a>, and see the same data on <a href="{% url "o5ui_home" %}">Open North's map-based interface, Roadcast</a>.</p>
 {% endblock %}
