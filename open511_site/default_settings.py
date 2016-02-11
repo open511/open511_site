@@ -91,9 +91,24 @@ ROOT_URLCONF = 'open511_site.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'open511_site.wsgi.application'
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    }
+]
 
 LOGIN_REDIRECT_URL = 'o5ui_home'
 LOGIN_URL = 'login'
@@ -129,7 +144,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         },
         'null': {
-            'class': 'django.utils.log.NullHandler',
+            'class': 'logging.NullHandler',
         },
         'mail_admins': {
             'level': 'ERROR',

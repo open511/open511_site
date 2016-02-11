@@ -26,3 +26,5 @@ application = get_wsgi_application()
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
+#from linesman.middleware import make_linesman_middleware
+#application = make_linesman_middleware(application)
