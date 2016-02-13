@@ -2,6 +2,6 @@
 -e git+http://github.com/open511/open511-server.git#egg=open511-server
 -e git+http://github.com/open511/roadcast.git#egg=roadcast
 -e git+http://github.com/open511/open511-api-tests.git#egg=open511-api-tests
-django-extensions==1.2.5
+django-extensions==1.6.1
 # Specify pytz, because it is slower when setuptools installs it as a zip. Ugh.
 pytz
